@@ -18,7 +18,13 @@ This article demonstrates the steps for configuring provisioning from Microsoft 
 
 > [!NOTE]
 > This article describes a connector built in the Microsoft Entra user provisioning service. For important details on what this service does, how it works, and frequently asked questions, see [Automate user provisioning and deprovisioning to SaaS applications with Microsoft Entra ID](~/identity/app-provisioning/user-provisioning.md). SAP Cloud Identity Services also has its own separate connector to read users and groups from Microsoft Entra ID. For more information, see [SAP Cloud Identity Services - Identity Provisioning - Microsoft Entra ID as a source system](https://help.sap.com/docs/identity-provisioning/identity-provisioning/microsoft-azure-active-directory).
->
+
+> [!NOTE]
+> A new version of the SAP Cloud Identity Services connector is Generally Available and is now the default for the SAP Cloud Identity Services listing in the Microsoft Entra app gallery. This current version of the connector features the following changes:
+> * Updated to the SCIM 2.0 standard
+> * Support for group provisioning and deprovisioning to SAP Cloud Identity Services
+> * Support for custom extension attributes
+> * Support for the [OAuth 2.0 Client Credentials grant](https://learn.microsoft.com/entra/identity-platform/v2-oauth2-client-creds-grant-flow)
 
 ## Prerequisites
 
@@ -27,6 +33,7 @@ The scenario outlined in this article assumes that you already have the followin
 [!INCLUDE [common-prerequisites.md](~/identity/saas-apps/includes/common-prerequisites.md)]
 * [An SAP Cloud Identity Services tenant](https://www.sap.com/products/cloud-platform.html)
 * A user account in SAP Cloud Identity Services with Admin permissions.
+* A Microsoft Entra ID P1 license is required to use group provisioning capabilities.
 
 > [!NOTE]
 > This integration is also available to use from the Microsoft Entra US Government Cloud environment. You can find this application in the Microsoft Entra US Government Cloud Application Gallery and configure it in the same way as you do from the public cloud environment.
@@ -76,7 +83,7 @@ If SAP Cloud Identity Services is already configured for single-sign on from Mic
 
 ## Configure automatic user provisioning to SAP Cloud Identity Services
 
-This section guides you through the steps to configure the Microsoft Entra provisioning service to create, update, and disable users in SAP Cloud Identity Services based on user assignments to an application in Microsoft Entra ID.
+This section guides you through the steps to configure the Microsoft Entra provisioning service to create, update, and disable users and groups in SAP Cloud Identity Services based on user and group assignments to an application in Microsoft Entra ID.
 
 ### To configure automatic user provisioning for SAP Cloud Identity Services in Microsoft Entra ID:
 
@@ -101,7 +108,7 @@ This section guides you through the steps to configure the Microsoft Entra provi
 
 	![Screenshot of the Provisioning Mode dropdown list with the Automatic option called out.](common/provisioning-automatic.png)
 
-1. Under the **Admin Credentials** section, input `https://<tenantID>.accounts.ondemand.com/service/scim`, or `https://<tenantid>.trial-accounts.ondemand.com/service/scim` if a trial, with the tenant ID of your SAP Cloud Identity Services in **Tenant URL**. Input the **Client ID** and **Client Secret** values retrieved earlier in **Admin Username** and **Admin Password** respectively. Select **Test Connection** to ensure Microsoft Entra ID can connect to SAP Cloud Identity Services. If the connection fails, ensure your SAP Cloud Identity Services system account has Admin permissions, the secret is still valid, and try again.
+1. Under the **Admin Credentials** section, select **OAuth2 Client Credentials Grant**. Input `https://<tenantID>.accounts.ondemand.com/service/scim`, or `https://<tenantid>.trial-accounts.ondemand.com/service/scim` if a trial, with the tenant ID of your SAP Cloud Identity Services in **Tenant URL**. Input the **Token Endpoint**, which may look something like `https://<tenantID>.accounts.ondemand.com/oauth2/token`. Input the **Client ID** and **Client Secret** values that you [previously generated from the admin console for SAP Cloud Identity Services](https://learn.microsoft.com/entra/identity/saas-apps/sap-cloud-platform-identity-authentication-provisioning-tutorial#set-up-sap-cloud-identity-services-for-provisioning). Select **Test Connection** to ensure Microsoft Entra ID can connect to SAP Cloud Identity Services. If the connection fails, ensure your SAP Cloud Identity Services system account has Admin permissions, the secret is still valid, and try again.
 
 	![Screenshot of the Tenant URL and Token.](media/sap-cloud-platform-identity-authentication-provisioning-tutorial/testconnection.png)
 
